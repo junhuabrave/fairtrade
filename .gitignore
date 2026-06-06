@@ -1,0 +1,11 @@
+# Local artifacts
+/# Local copilot skills folder (ignored), but allow README
+/tools/copilot-skills/*
+!/tools/copilot-skills/README.md
+!/tools/copilot-skills/.keep
+
+# OS / editor
+.DS_Store
+node_modules/
+dist/
+build/
