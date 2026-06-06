@@ -1,0 +1,12 @@
+FROM ubuntu:22.04 AS build
+RUN apt-get update && apt-get install -y build-essential cmake git
+WORKDIR /src
+COPY core/trading-engine /src/core/trading-engine
+RUN mkdir -p build && cd build && cmake ../core/trading-engine && cmake --build .
+
+FROM ubuntu:22.04
+RUN apt-get update && apt-get install -y libstdc++6 python3 python3-venv
+COPY --from=build /src/build/libtrading_engine.a /opt/libtrading_engine.a
+COPY --from=build /src/build/trading_engine_demo /usr/local/bin/trading_engine_demo
+RUN chmod +x /usr/local/bin/trading_engine_demo
+CMD ["/usr/local/bin/trading_engine_demo"]

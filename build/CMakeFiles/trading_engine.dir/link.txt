@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtrading_engine.a CMakeFiles/trading_engine.dir/src/portfolio.cpp.o CMakeFiles/trading_engine.dir/src/ring_logger.cpp.o CMakeFiles/trading_engine.dir/src/risk_engine.cpp.o
+/usr/bin/ranlib libtrading_engine.a

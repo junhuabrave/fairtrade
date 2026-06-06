@@ -1,0 +1,5 @@
+FROM python:3.11-slim
+WORKDIR /opt/scripts
+COPY tools/test-suite/scripts /opt/scripts
+RUN pip install --no-cache-dir aiohttp
+CMD ["python3","/opt/scripts/fluent_bit_shipper.py","--binlog","/tmp/fairtrade.binlog","--endpoint","http://127.0.0.1:8000/logs"]

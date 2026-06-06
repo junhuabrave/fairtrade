@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  engine:
+    build:
+      context: .
+      dockerfile: Containerfile.engine
+    image: fairtrade-engine:latest
+    volumes:
+      - /tmp/fairtrade.binlog:/tmp/fairtrade.binlog
+    ports:
+      - "8080:8080"
+
+  ui:
+    build:
+      context: .
+      dockerfile: Containerfile.ui
+    image: fairtrade-ui:latest
+    ports:
+      - "3000:80"
+
+  telemetry-shipper:
+    build:
+      context: .
+      dockerfile: Containerfile.telemetry
+    image: fairtrade-telemetry:latest
+    command: ["python3","/opt/scripts/fluent_bit_shipper.py","--binlog","/tmp/fairtrade.binlog","--endpoint","http://receiver:8000/logs"]
+    volumes:
+      - /tmp/fairtrade.binlog:/tmp/fairtrade.binlog
+
+  receiver:
+    image: python:3.11-slim
+    command: ["python3", "/opt/scripts/receiver.py", "8000"]
+    volumes:
+      - ./tools/test-suite/scripts:/opt/scripts:ro
+    ports:
+      - "8000:8000"
