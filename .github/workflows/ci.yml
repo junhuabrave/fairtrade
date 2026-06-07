@@ -20,6 +20,8 @@ jobs:
 
       - name: Configure CMake
         run: |
+          # Remove any stale build/cache from previous runs and create a fresh build dir
+          rm -rf build
           mkdir -p build
           cd build
           cmake -DCMAKE_BUILD_TYPE=Release ..
